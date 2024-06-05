@@ -1,0 +1,139 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{792C61F2-F451-4907-B128-E7838A248E85}|Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng.csproj|d:\\2024\\work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\readfromstructarray\\lixinerfeng_mc\\ph_mc_lixinerfeng\\ph_mc_lixinerfeng\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792C61F2-F451-4907-B128-E7838A248E85}|Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng.csproj|solutionrelative:ph_mc_lixinerfeng\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792C61F2-F451-4907-B128-E7838A248E85}|Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng.csproj|d:\\2024\\work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\readfromstructarray\\lixinerfeng_mc\\ph_mc_lixinerfeng\\ph_mc_lixinerfeng\\keyencecomm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792C61F2-F451-4907-B128-E7838A248E85}|Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng.csproj|solutionrelative:ph_mc_lixinerfeng\\keyencecomm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792C61F2-F451-4907-B128-E7838A248E85}|Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng.csproj|d:\\2024\\work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\readfromstructarray\\lixinerfeng_mc\\ph_mc_lixinerfeng\\ph_mc_lixinerfeng\\grpcsubscribenodes\\grpcsubscribenodes_4752.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{792C61F2-F451-4907-B128-E7838A248E85}|Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng.csproj|solutionrelative:ph_mc_lixinerfeng\\grpcsubscribenodes\\grpcsubscribenodes_4752.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792C61F2-F451-4907-B128-E7838A248E85}|Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng.csproj|d:\\2024\\work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\readfromstructarray\\lixinerfeng_mc\\ph_mc_lixinerfeng\\ph_mc_lixinerfeng\\readfromexcel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792C61F2-F451-4907-B128-E7838A248E85}|Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng.csproj|solutionrelative:ph_mc_lixinerfeng\\readfromexcel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792C61F2-F451-4907-B128-E7838A248E85}|Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng.csproj|d:\\2024\\work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\readfromstructarray\\lixinerfeng_mc\\ph_mc_lixinerfeng\\ph_mc_lixinerfeng\\grpccomm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792C61F2-F451-4907-B128-E7838A248E85}|Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng.csproj|solutionrelative:ph_mc_lixinerfeng\\grpccomm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792C61F2-F451-4907-B128-E7838A248E85}|Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng.csproj|d:\\2024\\work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\readfromstructarray\\lixinerfeng_mc\\ph_mc_lixinerfeng\\ph_mc_lixinerfeng\\userstruct.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792C61F2-F451-4907-B128-E7838A248E85}|Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng.csproj|solutionrelative:ph_mc_lixinerfeng\\userstruct.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792C61F2-F451-4907-B128-E7838A248E85}|Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng.csproj|d:\\2024\\work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\readfromstructarray\\lixinerfeng_mc\\ph_mc_lixinerfeng\\ph_mc_lixinerfeng\\toolapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792C61F2-F451-4907-B128-E7838A248E85}|Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng.csproj|solutionrelative:ph_mc_lixinerfeng\\toolapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 294,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GrpcSubscribeNodes_4752.xml",
+              "DocumentMoniker": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\GrpcSubscribeNodes\\GrpcSubscribeNodes_4752.xml",
+              "RelativeDocumentMoniker": "Ph_Mc_LiXinErFeng\\GrpcSubscribeNodes\\GrpcSubscribeNodes_4752.xml",
+              "ToolTip": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\GrpcSubscribeNodes\\GrpcSubscribeNodes_4752.xml",
+              "RelativeToolTip": "Ph_Mc_LiXinErFeng\\GrpcSubscribeNodes\\GrpcSubscribeNodes_4752.xml",
+              "ViewState": "AQIAABgAAAAAAAAAAADwvwAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2024-06-05T08:20:24.966Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "KeyenceComm.cs",
+              "DocumentMoniker": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\KeyenceComm.cs",
+              "RelativeDocumentMoniker": "Ph_Mc_LiXinErFeng\\KeyenceComm.cs",
+              "ToolTip": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\KeyenceComm.cs",
+              "RelativeToolTip": "Ph_Mc_LiXinErFeng\\KeyenceComm.cs",
+              "ViewState": "AQIAAJgAAAAAAAAAAAAkwKYAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-05T07:53:44.798Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserStruct.cs",
+              "DocumentMoniker": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\UserStruct.cs",
+              "RelativeDocumentMoniker": "Ph_Mc_LiXinErFeng\\UserStruct.cs",
+              "ToolTip": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\UserStruct.cs",
+              "RelativeToolTip": "Ph_Mc_LiXinErFeng\\UserStruct.cs",
+              "ViewState": "AQIAAM8AAAAAAAAAAAAAwDwBAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T08:56:00.357Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ToolAPI.cs",
+              "DocumentMoniker": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\ToolAPI.cs",
+              "RelativeDocumentMoniker": "Ph_Mc_LiXinErFeng\\ToolAPI.cs",
+              "ToolTip": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\ToolAPI.cs",
+              "RelativeToolTip": "Ph_Mc_LiXinErFeng\\ToolAPI.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T08:55:57.839Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ReadFromExcel.cs",
+              "DocumentMoniker": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\ReadFromExcel.cs",
+              "RelativeDocumentMoniker": "Ph_Mc_LiXinErFeng\\ReadFromExcel.cs",
+              "ToolTip": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\ReadFromExcel.cs",
+              "RelativeToolTip": "Ph_Mc_LiXinErFeng\\ReadFromExcel.cs",
+              "ViewState": "AQIAAIEBAAAAAAAAAAAowDsAAAA7AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T08:55:55.379Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\Program.cs",
+              "RelativeDocumentMoniker": "Ph_Mc_LiXinErFeng\\Program.cs",
+              "ToolTip": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\Program.cs",
+              "RelativeToolTip": "Ph_Mc_LiXinErFeng\\Program.cs",
+              "ViewState": "AQIAALcDAAAAAAAAAAAAALwDAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T08:48:32.823Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GrpcComm.cs",
+              "DocumentMoniker": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\GrpcComm.cs",
+              "RelativeDocumentMoniker": "Ph_Mc_LiXinErFeng\\GrpcComm.cs",
+              "ToolTip": "D:\\2024\\Work\\12-\u51A0\u5B87\u6570\u91C7\u9879\u76EE\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\GrpcComm.cs",
+              "RelativeToolTip": "Ph_Mc_LiXinErFeng\\GrpcComm.cs",
+              "ViewState": "AQIAADkAAAAAAAAAAAAQwB8AAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T08:55:35.909Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
