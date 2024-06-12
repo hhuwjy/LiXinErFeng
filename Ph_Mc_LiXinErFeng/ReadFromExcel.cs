@@ -116,7 +116,11 @@ namespace Ph_Mc_LiXinErFeng
                                     //var ms = r.Matches(v.varName);
                                     //if (ms.Count > 0)
                                     //v.varIndex = Convert.ToInt32(ms.ToArray()[0].Value);
-                                     v.varOffset = Convert.ToInt32(row.GetCell(j));
+
+                                    // 修改代码
+                                    string temp = Convert.ToString(row.GetCell(j));
+                                    v.varOffset = GetNumbersFromString(temp);
+                                    //v.varOffset = Convert.ToInt32(row.GetCell(j));
                                    
                                 }
 
@@ -193,7 +197,11 @@ namespace Ph_Mc_LiXinErFeng
                     }
                     else if (j == getCellIndexByName(headerRow, "偏移地址"))
                     {
-                        v.varOffset = Convert.ToInt32(Convert.ToString(row.GetCell(j)),16);
+                        //v.varOffset = Convert.ToInt32(Convert.ToString(row.GetCell(j)),16);
+
+                        // 修改代码
+                        string temp = Convert.ToString(row.GetCell(j));
+                        v.varOffset = GetNumbersFromString(temp);
                     }
                     else if (j == getCellIndexByName(headerRow, "点位名"))
                     {
@@ -262,7 +270,11 @@ namespace Ph_Mc_LiXinErFeng
                     }
                     else if (j == getCellIndexByName(headerRow, "偏移地址"))
                     {
-                        v.varOffset = Convert.ToDouble(row.GetCell(j));
+                        //v.varOffset = Convert.ToDouble(row.GetCell(j));
+
+                        //修改代码
+                        string temp = Convert.ToString(row.GetCell(j));                      
+                        v.varOffset = Convert.ToDouble(temp);
                     }
                     else if (j == getCellIndexByName(headerRow, "点位名"))
                     {
@@ -526,6 +538,7 @@ namespace Ph_Mc_LiXinErFeng
                 if (string.Equals(cell.StringCellValue.Trim(), cellValue))
                 {
                     result = j;
+                    return result;
                 }
             }
 

@@ -42,11 +42,18 @@
 	<Alias Alias="DM9400">Arp.Plc.Eclr/G_arriProductionDataValue_LXEF3</Alias>
 	<Alias Alias="DM9000">Arp.Plc.Eclr/G_arriLifeManagementNameValue_LXEF3</Alias>
 	<Alias Alias="MR8800">Arp.Plc.Eclr/G_arrxFunctionEnableValue_LXEF3</Alias>
-	<Alias Alias="DM8000.0">Arp.Plc.Eclr/G_arrxAlarmInfoValue_LXEF3</Alias>
-	<Alias Alias="OEE">Arp.Plc.Eclr/G_arrxOEEInfoValue_LXEF3</Alias>  
-	  
-	
+	<Alias Alias="DM8000">Arp.Plc.Eclr/G_arrxAlarmInfoValue_LXEF3</Alias>
+	<Alias Alias="OEE">Arp.Plc.Eclr/G_arrxOEEInfoValue_LXEF3</Alias>
 
+	<Alias Alias="FS_1">Arp.Plc.Eclr/G_udtFunctionEnableName_LXEF3</Alias>
+	<Alias Alias="PS_1">Arp.Plc.Eclr/G_udtProductionDataName_LXEF3</Alias>
+	<Alias Alias="LM_1">Arp.Plc.Eclr/G_udtLifeManagementName_LXEF3</Alias>
+	<Alias Alias="AS_1">Arp.Plc.Eclr/G_udtAlarmInfoName_LXEF3</Alias>
+	<Alias Alias="andon_yl">Arp.Plc.Eclr/G_udtOEEInfoName_LXEF3</Alias>
+	<Alias Alias="S_A1">Arp.Plc.Eclr/G_udt1A1BName_LXEF3</Alias>
+	<Alias Alias="S_B1">Arp.Plc.Eclr/G_udt2A2BName_LXEF3</Alias>
+	  
+	<Alias Alias="OverviewInfo">Arp.Plc.Eclr/G_udtOverviewInfo_LXEF3</Alias>
 
   </Aliases>
   

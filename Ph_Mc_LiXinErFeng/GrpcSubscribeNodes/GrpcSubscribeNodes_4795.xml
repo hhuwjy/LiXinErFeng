@@ -41,9 +41,26 @@
 	<Alias Alias="DM9400">Arp.Plc.Eclr/G_arriProductionDataValue_LXEF1</Alias>
 	<Alias Alias="DM9000">Arp.Plc.Eclr/G_arriLifeManagementNameValue_LXEF1</Alias>	  
 	<Alias Alias="MR8800">Arp.Plc.Eclr/G_arrxFunctionEnableValue_LXEF1</Alias>
-	<Alias Alias="DM8000.0">Arp.Plc.Eclr/G_arrxAlarmInfoValue_LXEF1</Alias>
+	<Alias Alias="DM8000">Arp.Plc.Eclr/G_arrxAlarmInfoValue_LXEF1</Alias>
 	<Alias Alias="OEE">Arp.Plc.Eclr/G_arrxOEEInfoValue_LXEF1</Alias>
 
+	<Alias Alias="FS_1">Arp.Plc.Eclr/G_udtFunctionEnableName_LXEF1</Alias>
+	<Alias Alias="PS_1">Arp.Plc.Eclr/G_udtProductionDataName_LXEF1</Alias>
+	<Alias Alias="LM_1">Arp.Plc.Eclr/G_udtLifeManagementName_LXEF1</Alias>
+	<Alias Alias="AS_1">Arp.Plc.Eclr/G_udtAlarmInfoName_LXEF1</Alias>
+	<Alias Alias="andon_yl">Arp.Plc.Eclr/G_udtOEEInfoName_LXEF1</Alias>
+	<Alias Alias="S_A1">Arp.Plc.Eclr/G_udt1A1BName_LXEF1</Alias>
+	<Alias Alias="S_B1">Arp.Plc.Eclr/G_udt2A2BName_LXEF1</Alias>
+
+	<Alias Alias="OverviewInfo">Arp.Plc.Eclr/G_udtOverviewInfo_LXEF1</Alias>
+
+
+	  <Alias Alias="AppStatus">Arp.Plc.Eclr/G_diAppStatus</Alias>
+
+	  <Alias Alias="flag_finishReadExcelFile">Arp.Plc.Eclr/G_xReadDataListFinish_FZ1</Alias>
+	  <Alias Alias="flag_finishWriteExcelFile">Arp.Plc.Eclr/G_xWriteDataToExcelFinish_FZ1</Alias>
+	  <Alias Alias="Switch_ReadExcelFile">Arp.Plc.Eclr/G_xReadDataList_FZ1</Alias>
+	  <Alias Alias="Switch_WriteExcelFile">Arp.Plc.Eclr/G_xWriteDataToExcel_FZ1</Alias>
 
 
   </Aliases>

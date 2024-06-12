@@ -41,8 +41,48 @@ namespace Ph_Mc_LiXinErFeng
     {
 
 
-        //读取并发送设备信息 
-        public void ReadandSendDeviceInfo(DeviceInfoConSturct_MC[] input, KeyenceMcNet mc, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
+        #region 读取并发送设备信息
+        //
+        // 4795 4794 4785的设备信息 最后一个点位不连续
+        public void ReadandSendDeviceInfo1(DeviceInfoConSturct_MC[] input, KeyenceMcNet mc, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
+        {
+            var ReadObject = input[0].varName;
+            ushort length = (ushort)(input.Length - 1);
+            var listWriteItem = new List<WriteItem>();
+
+            var tempdata = new bool[input.Length];
+
+            OperateResult<bool[]> ret = mc.ReadBool(ReadObject, length);
+            OperateResult<bool> ret1 = mc.ReadBool(input[input.Length -1].varName);
+
+            if (ret.IsSuccess && ret1.IsSuccess)
+            {
+                Array.Copy(ret.Content, 0, tempdata, 0, ret.Content.Length);
+                tempdata[ret.Content.Length] = ret1.Content;
+                try
+                {
+                    listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary["DeviceInfo"], Arp.Type.Grpc.CoreType.CtArray, tempdata));
+                    var writeItemsArray = listWriteItem.ToArray();
+                    var dataAccessServiceWriteRequest = grpcToolInstance.ServiceWriteRequestAddDatas(writeItemsArray);
+                    bool result = grpcToolInstance.WriteDataToDataAccessService(grpcDataAccessServiceClient, dataAccessServiceWriteRequest, new IDataAccessServiceWriteResponse(), options1);
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("ERRO: {0}，{1}", e, nodeidDictionary.GetValueOrDefault("DeviceInfo"));
+                    logNet.WriteError(DateTime.Now.ToString() + "  DeviceInfo Send Error:  " + e.ToString());
+
+                }
+            }
+            else
+            {
+                logNet.WriteError(DateTime.Now.ToString() + ReadObject + " Read Failed ");
+                Console.WriteLine(ReadObject + " Read Failed ");
+
+            }
+        }
+
+        public void ReadandSendDeviceInfo2(DeviceInfoConSturct_MC[] input, KeyenceMcNet mc, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
         {
             var ReadObject = input[0].varName;
             ushort length = (ushort)input.Length;
@@ -73,11 +113,11 @@ namespace Ph_Mc_LiXinErFeng
                 Console.WriteLine( ReadObject + " Read Failed ");
                 
             }
-        }    
+        }
 
-      
+        #endregion
 
-       //从大数组中取数，并发送工位数据
+        //从大数组中取数，并发送工位数据
         public void SendStationData(StationInfoStruct_MC[] input, short[] EMArray, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
         {
             short[] senddata = new short[input.Length];
@@ -101,16 +141,12 @@ namespace Ph_Mc_LiXinErFeng
             catch (Exception e)
             {
                 Console.WriteLine("ERRO: {0}，{1}", e, nodeidDictionary.GetValueOrDefault(StationName_Now));
-                logNet.WriteError(DateTime.Now.ToString() +" "+ StationName_Now + " Send Error:  " + e.ToString());
-
-               
+                logNet.WriteError(DateTime.Now.ToString() +" "+ StationName_Now + "  Send Error:  " + e.ToString());
+             
             }
 
         }
     
-  
-
-
 
         #region 读1000ms的数据
 
@@ -181,7 +217,7 @@ namespace Ph_Mc_LiXinErFeng
                         var writeItemsArray = listWriteItem.ToArray();
                         var dataAccessServiceWriteRequest = grpcToolInstance.ServiceWriteRequestAddDatas(writeItemsArray);
                         bool result = grpcToolInstance.WriteDataToDataAccessService(grpcDataAccessServiceClient, dataAccessServiceWriteRequest, new IDataAccessServiceWriteResponse(), options1);
-                       
+                        
                     }
                     catch (Exception e)
                     {
@@ -199,12 +235,12 @@ namespace Ph_Mc_LiXinErFeng
             }
         }
 
-        //读取并发送 寿命管理数据 （需要根据偏移地址进行筛选）
+        //读取并发送 寿命管理数据  (需要根据地址筛选）
         public void ReadandSendDisOneSecData(OneSecInfoStruct_MC[] input, KeyenceMcNet mc, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
         {
             short[] senddata = new short[input.Length];
             var ReadObject = input[0].varName;
-            ushort length = (ushort)input.Length;
+            ushort length = (ushort)(input[input.Length -1].varOffset - input[0].varOffset +1 );
             var listWriteItem = new List<WriteItem>();
 
             OperateResult<short[]> ret = mc.ReadInt16(ReadObject, length);
@@ -223,7 +259,7 @@ namespace Ph_Mc_LiXinErFeng
                     var writeItemsArray = listWriteItem.ToArray();
                     var dataAccessServiceWriteRequest = grpcToolInstance.ServiceWriteRequestAddDatas(writeItemsArray);
                     bool result = grpcToolInstance.WriteDataToDataAccessService(grpcDataAccessServiceClient, dataAccessServiceWriteRequest, new IDataAccessServiceWriteResponse(), options1);
-                    
+                  
                 }
                 catch (Exception e)
                 {
@@ -244,19 +280,20 @@ namespace Ph_Mc_LiXinErFeng
 
         //读取并发送报警数据
         public void ReadandSendAlarmData(OneSecAlarmStruct_MC[] input, KeyenceMcNet mc, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
-        {
-            bool[] senddata = new bool[input.Length];
+        {          
             var ReadObject = input[0].varName.Replace(".0", "");
-            ushort length = (ushort)input.Length;
+            ushort length = 38; //硬编码 从DM8000-DM8037 
+            bool[] senddata = new bool[ length * 16 ];
             var listWriteItem = new List<WriteItem>();
             bool temp;
 
             OperateResult<byte[]> ret = mc.Read(ReadObject, length);
+           
             if (ret.IsSuccess)
             {
-                for (int i = 0;  i < ret.Content.Length ; i++)
+                for (int i = 0; i < 38 * 16; i++)
                 {
-                    temp = mc.ByteTransform.TransBool(ret.Content, 0);   // 每个bool 一个字节
+                    temp = mc.ByteTransform.TransBool(ret.Content, 0 + i);   // 每个bool 一个字节                 
                     senddata[i] = temp;
                 }
 
@@ -290,7 +327,7 @@ namespace Ph_Mc_LiXinErFeng
         #region 读取并发送点位名
         public void ReadandSendPointName(OneSecInfoStruct_MC[] InputStruct, OneSecPointNameStruct_IEC functionEnableNameStruct_IEC, int IEC_Array_Number, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
         {           
-            functionEnableNameStruct_IEC.iDataCount = InputStruct.Length;
+            functionEnableNameStruct_IEC.iDataCount = InputStruct.Length;           
             functionEnableNameStruct_IEC.stringArrData = new stringStruct[IEC_Array_Number];
             var listWriteItem = new List<WriteItem>();
            
@@ -307,8 +344,6 @@ namespace Ph_Mc_LiXinErFeng
             }
             try
             {
-
-                // TO DO LIST 这里的点位名尚未添加 InputStruct[0].varAnnotation 
                 listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary.GetValueOrDefault(InputStruct[0].varAnnotation), Arp.Type.Grpc.CoreType.CtStruct, functionEnableNameStruct_IEC));
                 var writeItemsArray = listWriteItem.ToArray();
                 var dataAccessServiceWriteRequest = grpcToolInstance.ServiceWriteRequestAddDatas(writeItemsArray);
@@ -342,8 +377,6 @@ namespace Ph_Mc_LiXinErFeng
             }
             try
             {
-
-                // TO DO LIST 这里的点位名尚未添加 InputStruct[0].varAnnotation 
                 listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary.GetValueOrDefault(InputStruct[0].varAnnotation), Arp.Type.Grpc.CoreType.CtStruct, functionEnableNameStruct_IEC));
                 var writeItemsArray = listWriteItem.ToArray();
                 var dataAccessServiceWriteRequest = grpcToolInstance.ServiceWriteRequestAddDatas(writeItemsArray);
@@ -377,8 +410,6 @@ namespace Ph_Mc_LiXinErFeng
             }
             try
             {
-
-                // TO DO LIST 这里的点位名尚未添加 InputStruct[0].varAnnotation 
                 listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary.GetValueOrDefault(InputStruct[0].varAnnotation), Arp.Type.Grpc.CoreType.CtStruct, functionEnableNameStruct_IEC));
                 var writeItemsArray = listWriteItem.ToArray();
                 var dataAccessServiceWriteRequest = grpcToolInstance.ServiceWriteRequestAddDatas(writeItemsArray);
@@ -412,7 +443,6 @@ namespace Ph_Mc_LiXinErFeng
             }
             try
             {
-                // TO DO LIST 这里的点位名尚未添加 InputStruct[0].varAnnotation 
                 listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary.GetValueOrDefault(InputString[0]), Arp.Type.Grpc.CoreType.CtStruct, functionEnableNameStruct_IEC));
                 var writeItemsArray = listWriteItem.ToArray();
                 var dataAccessServiceWriteRequest = grpcToolInstance.ServiceWriteRequestAddDatas(writeItemsArray);

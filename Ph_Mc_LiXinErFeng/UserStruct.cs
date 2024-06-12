@@ -92,6 +92,20 @@ namespace Ph_Mc_LiXinErFeng
 
             }
 
+            if (Arr.GetType() == typeof(Int16[]))
+            {
+                Int16[] dintArr = (Int16[])Arr;
+
+                foreach (Int16 f in dintArr)
+                {
+                    ObjectType objectType = new ObjectType();
+                    objectType.Int16Value = f;
+                    objectType.TypeCode = CoreType.CtInt16;
+                    ArrayV.ArrayElements.Add(objectType);
+                }
+
+            }
+
             if (Arr.GetType() == typeof(string[]))
             {
                 string[] stringArr = (string[])Arr;

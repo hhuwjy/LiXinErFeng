@@ -243,7 +243,7 @@ namespace Ph_Mc_LiXinErFeng
                 for (int i = 0; i < count; i++)
                 {
 
-                    // Console.WriteLine("dataAccessServiceWriteResponse.ReturnValue---{0}:   {1})", i,dataAccessServiceWriteResponse.ReturnValue[i]);
+                    //Console.WriteLine("dataAccessServiceWriteResponse.ReturnValue---{0}:   {1})", i,dataAccessServiceWriteResponse.ReturnValue[i]);
 
                     if (Convert.ToString(dataAccessServiceWriteResponse.ReturnValue[i]) != "DaeNone")
                     {

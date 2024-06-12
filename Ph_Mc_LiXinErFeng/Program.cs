@@ -120,6 +120,19 @@ namespace Ph_Mc_LiXinErFeng
 
             int stepNumber = 10;
 
+
+            List<WriteItem> listWriteItem = new List<WriteItem>();
+            IDataAccessServiceReadSingleRequest dataAccessServiceReadSingleRequest = new IDataAccessServiceReadSingleRequest();
+
+            bool isThreadZeroRunning = false;
+            bool isThreadOneRunning = false;
+            bool isThreadTwoRunning = false;
+            bool isThreadThreeRunning = false;
+            bool isThreadFourRunning = false;          
+            bool isThreadFiveRunning = false;
+            bool isThreadSixRunning = false;
+            bool isThreadSevenRunning = false;
+
             while (true)
             {
                 switch (stepNumber)
@@ -131,15 +144,15 @@ namespace Ph_Mc_LiXinErFeng
                             /// 执行初始化
                             /// </summary>
 
-                            logNet.WriteInfo(DateTime.Now.ToString() + "App Start");
+                            logNet.WriteInfo("App Start");
 
                             #region 读取Excel （4795 4794 4785对应点表 LXEFData.xlsx； 4752对应点表 LXEFData(4752).xlsx）
 
-                            string excelFilePath1 = Directory.GetCurrentDirectory() + "\\LXEFData.xlsx";
-                            string excelFilePath2 = Directory.GetCurrentDirectory() + "\\LXEFData(4752).xlsx";     //PC端测试路径
+                            //string excelFilePath1 = Directory.GetCurrentDirectory() + "\\LXEFData.xlsx";
+                            //string excelFilePath2 = Directory.GetCurrentDirectory() + "\\LXEFData(4752).xlsx";     //PC端测试路径
                             
-                            //string excelFilePath1 = "/opt/plcnext/apps/LXEFData.xlsx";
-                            //string excelFilePath2 = "/opt/plcnext/apps/LXEFData(4752).xlsx";                         //EPC存放路径
+                            string excelFilePath1 = "/opt/plcnext/apps/LXEFData.xlsx";
+                            string excelFilePath2 = "/opt/plcnext/apps/LXEFData(4752).xlsx";                         //EPC存放路径
                                                     
                             XSSFWorkbook excelWorkbook1 = readExcel.connectExcel(excelFilePath1);   // LXEFData(4795 4794 4785)
                             XSSFWorkbook excelWorkbook2 = readExcel.connectExcel(excelFilePath2);   // LXEFData(4752)  
@@ -149,12 +162,13 @@ namespace Ph_Mc_LiXinErFeng
 
                             Console.WriteLine("LXEFData(4752) read {0}", excelWorkbook2 != null ? "success" : "fail");
                             logNet.WriteInfo(DateTime.Now.ToString() + "  :LXEFData(4752) read ", excelWorkbook2 != null ? "success" : "fail");
-                         
+
                             #endregion
 
 
                             #region 从xml获取nodeid，Grpc发送到对应变量时使用，注意xml中的别名要和对应类的属性名一致 
 
+                            //4795
                             try
                             {
                                 //EPC中存放的路径
@@ -162,39 +176,41 @@ namespace Ph_Mc_LiXinErFeng
 
                                 //PC中存放的路径                               
                                 //const string filePath1 = "D:\\2024\\Work\\12-冠宇数采项目\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\GrpcSubscribeNodes\\GrpcSubscribeNodes_4795.xml";  
-                                
+
                                 //将xml中的值写入字典中
                                 nodeidDictionary1 = grpcToolInstance.getNodeIdDictionary(filePath1);
 
-                                logNet.WriteInfo(DateTime.Now.ToString() + "  :NodeID Sheet 4795 read successfully");
+                                logNet.WriteInfo("NodeID Sheet 4795 read successfully");
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
                                 logNet.WriteError("Error:" + e);
-                                logNet.WriteError(DateTime.Now.ToString() + "  :NodeID Sheet 4795 read failed");
+                                logNet.WriteError("NodeID Sheet 4795 read failed");
 
                             }
 
+                            //4794
                             try
                             {
                                 //EPC中存放的路径
                                 const string filePath2 = "/opt/plcnext/apps/GrpcSubscribeNodes_4794.xml";
 
                                 //PC中存放的路径                               
-                                 //const string filePath2 = "D:\\2024\\Work\\12-冠宇数采项目\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\GrpcSubscribeNodes\\GrpcSubscribeNodes_4794.xml";  
-                               
+                                //const string filePath2 = "D:\\2024\\Work\\12-冠宇数采项目\\ReadFromStructArray\\LiXinErFeng_MC\\Ph_Mc_LiXinErFeng\\Ph_Mc_LiXinErFeng\\GrpcSubscribeNodes\\GrpcSubscribeNodes_4794.xml";  
+
                                 //将xml中的值写入字典中
                                 nodeidDictionary2 = grpcToolInstance.getNodeIdDictionary(filePath2);
 
-                                logNet.WriteInfo(DateTime.Now.ToString() + "  :NodeID Sheet 4794 read successfully");
+                                logNet.WriteInfo("NodeID Sheet 4794 read successfully");
                             }
                             catch (Exception e)
                             {
                                 logNet.WriteError("Error:" + e);
-                                logNet.WriteError(DateTime.Now.ToString() + "  :NodeID Sheet 4794 read failed");
+                                logNet.WriteError("NodeID Sheet 4794 read failed");
 
                             }
 
+                            //4785
                             try
                             {
                                 //EPC中存放的路径
@@ -206,15 +222,16 @@ namespace Ph_Mc_LiXinErFeng
                                 //将xml中的值写入字典中
                                 nodeidDictionary3 = grpcToolInstance.getNodeIdDictionary(filePath3);
 
-                                logNet.WriteInfo(DateTime.Now.ToString() + "  :NodeID Sheet 4785 read successfully");
+                                logNet.WriteInfo("NodeID Sheet 4785 read successfully");
                             }
                             catch (Exception e)
                             {
                                 logNet.WriteError("Error:" + e);
-                                logNet.WriteError(DateTime.Now.ToString() + "  :NodeID Sheet 4785 read failed");
+                                logNet.WriteError("NodeID Sheet 4785 read failed");
 
                             }
 
+                            //4752
                             try
                             {
                                 //EPC中存放的路径      
@@ -226,13 +243,13 @@ namespace Ph_Mc_LiXinErFeng
                                 //将xml中的值写入字典中
                                 nodeidDictionary4 = grpcToolInstance.getNodeIdDictionary(filePath4);
 
-                                logNet.WriteInfo(DateTime.Now.ToString() + "  :NodeID Sheet 4752 read successfully");
+                                logNet.WriteInfo("NodeID Sheet 4752 read successfully");
 
                             }
                             catch (Exception e)
                             {
                                 logNet.WriteError("Error:" + e);
-                                logNet.WriteError(DateTime.Now.ToString() + "  :NodeID Sheet 4752 read failed");
+                                logNet.WriteError("NodeID Sheet 4752 read failed");
                             }
 
                             #endregion
@@ -248,10 +265,10 @@ namespace Ph_Mc_LiXinErFeng
                             StationData2_LXEF1 = readExcel.ReadStationInfo_Excel(excelWorkbook1, "加工工位(2A2B)");
 
                             // 非报警信号（1000ms）
-                            OEE1_LXEF1 = readExcel.ReadOneSecInfo_Excel(excelWorkbook1, "OEE(1)",false);
+                            OEE1_LXEF1 = readExcel.ReadOneSecInfo_Excel(excelWorkbook1, "OEE(1)", false);
                             OEE2_LXEF1 = readExcel.ReadOneSecInfo_Excel(excelWorkbook1, "OEE(2)", false);
                             Function_Enable_LXEF1 = readExcel.ReadOneSecInfo_Excel(excelWorkbook1, "功能开关", false);
-                            Production_Data_LXEF1 = readExcel.ReadOneSecInfo_Excel(excelWorkbook1, "生产统计",false);
+                            Production_Data_LXEF1 = readExcel.ReadOneSecInfo_Excel(excelWorkbook1, "生产统计", false);
                             Life_Management_LXEF1 = readExcel.ReadOneSecInfo_Excel(excelWorkbook1, "寿命管理", false);
 
                             // 报警信号（1000ms)
@@ -273,11 +290,11 @@ namespace Ph_Mc_LiXinErFeng
                             OEE1_LXEF2 = readExcel.ReadOneSecInfo_Excel(excelWorkbook2, "OEE(1)", false);
                             OEE2_LXEF2 = readExcel.ReadOneSecInfo_Excel(excelWorkbook2, "OEE(2)", false);
                             Function_Enable_LXEF2 = readExcel.ReadOneSecInfo_Excel(excelWorkbook2, "功能开关", false);
-                            Production_Data_LXEF1 = readExcel.ReadOneSecInfo_Excel(excelWorkbook2, "生产统计", false);
-                            Life_Management_LXEF1 = readExcel.ReadOneSecInfo_Excel(excelWorkbook2, "寿命管理", false);
+                            Production_Data_LXEF2 = readExcel.ReadOneSecInfo_Excel(excelWorkbook2, "生产统计", false);
+                            Life_Management_LXEF2 = readExcel.ReadOneSecInfo_Excel(excelWorkbook2, "寿命管理", false);
 
                             // 报警信号（1000ms)
-                            Alarm_LXEF1 = readExcel.ReadOneSecAlarm_Excel(excelWorkbook2, "报警信号");
+                            Alarm_LXEF2 = readExcel.ReadOneSecAlarm_Excel(excelWorkbook2, "报警信号");
 
                             #endregion
 
@@ -313,38 +330,86 @@ namespace Ph_Mc_LiXinErFeng
                             deviceInfoStruct1_IEC = readExcel.ReadDeviceInfo_Excel(excelWorkbook1, "离心二封设备总览");   // LXEFData(4795 4794 4785)
                             deviceInfoStruct2_IEC = readExcel.ReadDeviceInfo_Excel(excelWorkbook2, "离心二封设备总览");   // LXEFData(4752) 
 
-                            var listWriteItem = new List<WriteItem>();
+                            listWriteItem = new List<WriteItem>();
+
+                            //4795
+                            try
+                            {
+                                listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary1["OverviewInfo"], Arp.Type.Grpc.CoreType.CtStruct, deviceInfoStruct1_IEC[0]));
+                                var writeItemsArray = listWriteItem.ToArray();
+                                var dataAccessServiceWriteRequest = grpcToolInstance.ServiceWriteRequestAddDatas(writeItemsArray);
+                                bool result = grpcToolInstance.WriteDataToDataAccessService(grpcDataAccessServiceClient, dataAccessServiceWriteRequest, new IDataAccessServiceWriteResponse(), options1);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("ERRO: {0}", e);
+                                logNet.WriteError("设备编号4795的设备总览信息发送失败，错误原因 : " + e.ToString());
+                            }
+                            listWriteItem.Clear();
+
+
+                            //4794
+                            try
+                            {
+                                listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary2["OverviewInfo"], Arp.Type.Grpc.CoreType.CtStruct, deviceInfoStruct1_IEC[1]));
+                                var writeItemsArray = listWriteItem.ToArray();
+                                var dataAccessServiceWriteRequest = grpcToolInstance.ServiceWriteRequestAddDatas(writeItemsArray);
+                                bool result = grpcToolInstance.WriteDataToDataAccessService(grpcDataAccessServiceClient, dataAccessServiceWriteRequest, new IDataAccessServiceWriteResponse(), options1);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("ERRO: {0}", e);
+                                logNet.WriteError("设备编号4794的设备总览信息发送失败，错误原因 : " + e.ToString());
+                            }
+                            listWriteItem.Clear();
+
+
+                            //4785
+                            try
+                            {
+                                listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary3["OverviewInfo"], Arp.Type.Grpc.CoreType.CtStruct, deviceInfoStruct1_IEC[2]));
+                                var writeItemsArray = listWriteItem.ToArray();
+                                var dataAccessServiceWriteRequest = grpcToolInstance.ServiceWriteRequestAddDatas(writeItemsArray);
+                                bool result = grpcToolInstance.WriteDataToDataAccessService(grpcDataAccessServiceClient, dataAccessServiceWriteRequest, new IDataAccessServiceWriteResponse(), options1);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("ERRO: {0}", e);
+                                logNet.WriteError("设备编号4785的设备总览信息发送失败，错误原因 : " + e.ToString());
+                            }
+                            listWriteItem.Clear();
+
+
+                            //4752
                             try
                             {                          
-                                listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary1["OverviewInfo"], Arp.Type.Grpc.CoreType.CtStruct, deviceInfoStruct1_IEC[0]));
-                                listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary2["OverviewInfo"], Arp.Type.Grpc.CoreType.CtStruct, deviceInfoStruct1_IEC[1]));
-                                listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary3["OverviewInfo"], Arp.Type.Grpc.CoreType.CtStruct, deviceInfoStruct1_IEC[2]));
-                                listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary1["OverviewInfo"], Arp.Type.Grpc.CoreType.CtStruct, deviceInfoStruct2_IEC[0]));
-                                
+                      
+                                listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary4["OverviewInfo"], Arp.Type.Grpc.CoreType.CtStruct, deviceInfoStruct2_IEC[0]));
                                 var writeItemsArray = listWriteItem.ToArray();
                                 var dataAccessServiceWriteRequest = grpcToolInstance.ServiceWriteRequestAddDatas(writeItemsArray);
                                 bool result = grpcToolInstance.WriteDataToDataAccessService(grpcDataAccessServiceClient, dataAccessServiceWriteRequest, new IDataAccessServiceWriteResponse(), options1);
                             
                             }
+
                             catch(Exception e)
                             {
                                 Console.WriteLine("ERRO: {0}", e);
-                                logNet.WriteError(DateTime.Now.ToString() + "  OverviewInfo", e.ToString());
+                                logNet.WriteError("设备编号4752的设备总览信息发送失败，错误原因 : " + e.ToString());
                             }
-
+                            listWriteItem.Clear();
                             #endregion
 
-                   
+
                             # region 发送4795的点位名 对应xml 为 nodeidDictionary1
 
                             keyenceClients.ReadandSendPointName(Production_Data_LXEF1, PointNameStruct_IEC, Production_Data_LXEF1.Length, grpcToolInstance, nodeidDictionary1, grpcDataAccessServiceClient, options1); //生产统计的点位名
                             keyenceClients.ReadandSendPointName(Function_Enable_LXEF1, PointNameStruct_IEC, Function_Enable_LXEF1.Length, grpcToolInstance, nodeidDictionary1, grpcDataAccessServiceClient, options1); //功能开关的点位名
                             keyenceClients.ReadandSendPointName(Life_Management_LXEF1, PointNameStruct_IEC, Life_Management_LXEF1.Length, grpcToolInstance, nodeidDictionary1, grpcDataAccessServiceClient, options1); //寿命管理的点位名
                             keyenceClients.ReadandSendPointName(Alarm_LXEF1, PointNameStruct_IEC, Alarm_LXEF1.Length, grpcToolInstance, nodeidDictionary1, grpcDataAccessServiceClient, options1);                     //报警信号的点位名
-                            
+
                             keyenceClients.ReadandSendPointName(StationData1_LXEF1, PointNameStruct_IEC, StationData1_LXEF1.Length, grpcToolInstance, nodeidDictionary1, grpcDataAccessServiceClient, options1);        //加工工位一的点位名
                             keyenceClients.ReadandSendPointName(StationData2_LXEF1, PointNameStruct_IEC, StationData1_LXEF1.Length, grpcToolInstance, nodeidDictionary1, grpcDataAccessServiceClient, options1);        //加工工位二的点位名
-                            
+
                             //将两个OEE的点位名拼成一个 string[]数组后，再发送 对应OEE表格
                             var stringnumber = OEE1_LXEF1.Length + OEE2_LXEF1.Length;
                             var OEEPointName = new string[stringnumber];
@@ -388,7 +453,7 @@ namespace Ph_Mc_LiXinErFeng
 
                             #endregion
 
-                            # region 发送4752的点位名 对应xml 为 nodeidDictionary4
+                            #region 发送4752的点位名 对应xml 为 nodeidDictionary4
 
                             keyenceClients.ReadandSendPointName(Production_Data_LXEF2, PointNameStruct_IEC, Production_Data_LXEF2.Length, grpcToolInstance, nodeidDictionary4, grpcDataAccessServiceClient, options1); //生产统计的点位名
                             keyenceClients.ReadandSendPointName(Function_Enable_LXEF2, PointNameStruct_IEC, Function_Enable_LXEF2.Length, grpcToolInstance, nodeidDictionary4, grpcDataAccessServiceClient, options1); //功能开关的点位名
@@ -438,7 +503,7 @@ namespace Ph_Mc_LiXinErFeng
                                 }
                                 else
                                 {
-                                    _mc[i] = new KeyenceMcNet(deviceInfoStruct2_IEC[i].strIPAddress, 5000);  //mc协议的端口号5000
+                                    _mc[i] = new KeyenceMcNet(deviceInfoStruct2_IEC[0].strIPAddress, 5000);  //mc协议的端口号5000   第二张表只有一个PLC的IP地址
                                     var retConnect = _mc[i].ConnectServer();
                                     Console.WriteLine("num {0} connect: {1})!", i, retConnect.IsSuccess ? "success" : "fail");
                                     logNet.WriteInfo("num " + i.ToString() + (retConnect.IsSuccess ? "success" : "fail"));
@@ -465,14 +530,15 @@ namespace Ph_Mc_LiXinErFeng
                                 var mc = _mc[0];
                                 var nodeidDictionary = nodeidDictionary1;
 
-                                while (true)
+                                while (isThreadZeroRunning)
                                 {
                                     TimeSpan start = new TimeSpan(DateTime.Now.Ticks);
 
-                                    keyenceClients.ReadandSendDeviceInfo(StationMemory_LXEF1, mc, grpcToolInstance, nodeidDictionary, grpcDataAccessServiceClient, options1);                                   
+                                    keyenceClients.ReadandSendDeviceInfo1(StationMemory_LXEF1, mc, grpcToolInstance, nodeidDictionary, grpcDataAccessServiceClient, options1);                                   
                                     
-                                    var ReadObject = "EM5057";
+                                    var ReadObject = "EM5057";   //硬编码
                                     ushort length = 25;
+
                                     OperateResult<short[]> ret = mc.ReadInt16(ReadObject, length);
                                     if (ret.IsSuccess)
                                     {
@@ -489,10 +555,10 @@ namespace Ph_Mc_LiXinErFeng
 
                                     TimeSpan end = new TimeSpan(DateTime.Now.Ticks);
                                     DateTime nowDisplay = DateTime.Now;
-                                    TimeSpan dur = (start - end).Duration();
+                                    TimeSpan dur = (end - start).Duration();
                   
                                     Console.WriteLine("No.4795 Thread 100ms Data Read Time:{0} read Duration:{1}", nowDisplay.ToString("yyyy-MM-dd HH:mm:ss:fff"), dur.TotalMilliseconds);
-
+                                   
                                     if (dur.TotalMilliseconds < 100)
                                     {
                                         int sleepTime = 100 - (int)dur.TotalMilliseconds;
@@ -509,7 +575,7 @@ namespace Ph_Mc_LiXinErFeng
                                 var mc = _mc[0];
                                 var nodeidDictionary = nodeidDictionary1;
 
-                                while (true)
+                                while (isThreadOneRunning)
                                 {
                                     TimeSpan start = new TimeSpan(DateTime.Now.Ticks);
 
@@ -550,7 +616,7 @@ namespace Ph_Mc_LiXinErFeng
 
                                     TimeSpan end = new TimeSpan(DateTime.Now.Ticks);
                                     DateTime nowDisplay = DateTime.Now;
-                                    TimeSpan dur = (start - end).Duration();
+                                    TimeSpan dur = (end - start).Duration();
                                     
                                     Console.WriteLine("No.4795 Thread One Second Data Read Time:{0} read Duration:{1}", nowDisplay.ToString("yyyy-MM-dd HH:mm:ss:fff"), dur.TotalMilliseconds);
 
@@ -575,11 +641,11 @@ namespace Ph_Mc_LiXinErFeng
                                 var mc = _mc[1];
                                 var nodeidDictionary = nodeidDictionary2;
 
-                                while (true)
+                                while (isThreadTwoRunning)
                                 {
                                     TimeSpan start = new TimeSpan(DateTime.Now.Ticks);
 
-                                    keyenceClients.ReadandSendDeviceInfo(StationMemory_LXEF1, mc, grpcToolInstance, nodeidDictionary, grpcDataAccessServiceClient, options1);
+                                    keyenceClients.ReadandSendDeviceInfo1(StationMemory_LXEF1, mc, grpcToolInstance, nodeidDictionary, grpcDataAccessServiceClient, options1);
 
                                     var ReadObject = "EM5057";
                                     ushort length = 25;
@@ -599,7 +665,7 @@ namespace Ph_Mc_LiXinErFeng
 
                                     TimeSpan end = new TimeSpan(DateTime.Now.Ticks);
                                     DateTime nowDisplay = DateTime.Now;
-                                    TimeSpan dur = (start - end).Duration();
+                                    TimeSpan dur = (end - start ).Duration();
 
                                     Console.WriteLine("No.4794 Thread 100ms Data Read Time:{0} read Duration:{1}", nowDisplay.ToString("yyyy-MM-dd HH:mm:ss:fff"), dur.TotalMilliseconds);
 
@@ -619,7 +685,7 @@ namespace Ph_Mc_LiXinErFeng
                                 var mc = _mc[1];
                                 var nodeidDictionary = nodeidDictionary2;
 
-                                while (true)
+                                while (isThreadThreeRunning)
                                 {
                                     TimeSpan start = new TimeSpan(DateTime.Now.Ticks);
 
@@ -660,7 +726,7 @@ namespace Ph_Mc_LiXinErFeng
 
                                     TimeSpan end = new TimeSpan(DateTime.Now.Ticks);
                                     DateTime nowDisplay = DateTime.Now;
-                                    TimeSpan dur = (start - end).Duration();
+                                    TimeSpan dur = (end - start).Duration();
 
                                     Console.WriteLine("No.4794 Thread One Second Data Read Time:{0} read Duration:{1}", nowDisplay.ToString("yyyy-MM-dd HH:mm:ss:fff"), dur.TotalMilliseconds);
 
@@ -684,11 +750,11 @@ namespace Ph_Mc_LiXinErFeng
                                 var mc = _mc[2];
                                 var nodeidDictionary = nodeidDictionary3;
 
-                                while (true)
+                                while (isThreadFourRunning)
                                 {
                                     TimeSpan start = new TimeSpan(DateTime.Now.Ticks);
 
-                                    keyenceClients.ReadandSendDeviceInfo(StationMemory_LXEF1, mc, grpcToolInstance, nodeidDictionary, grpcDataAccessServiceClient, options1);
+                                    keyenceClients.ReadandSendDeviceInfo1(StationMemory_LXEF1, mc, grpcToolInstance, nodeidDictionary, grpcDataAccessServiceClient, options1);
 
                                     var ReadObject = "EM5057";
                                     ushort length = 25;
@@ -708,7 +774,7 @@ namespace Ph_Mc_LiXinErFeng
 
                                     TimeSpan end = new TimeSpan(DateTime.Now.Ticks);
                                     DateTime nowDisplay = DateTime.Now;
-                                    TimeSpan dur = (start - end).Duration();
+                                    TimeSpan dur = (end - start).Duration();
 
                                     Console.WriteLine("No.4785 Thread 100ms Data Read Time:{0} read Duration:{1}", nowDisplay.ToString("yyyy-MM-dd HH:mm:ss:fff"), dur.TotalMilliseconds);
 
@@ -728,7 +794,7 @@ namespace Ph_Mc_LiXinErFeng
                                 var mc = _mc[2];
                                 var nodeidDictionary = nodeidDictionary3;
 
-                                while (true)
+                                while (isThreadFiveRunning)
                                 {
                                     TimeSpan start = new TimeSpan(DateTime.Now.Ticks);
 
@@ -769,7 +835,7 @@ namespace Ph_Mc_LiXinErFeng
 
                                     TimeSpan end = new TimeSpan(DateTime.Now.Ticks);
                                     DateTime nowDisplay = DateTime.Now;
-                                    TimeSpan dur = (start - end).Duration();
+                                    TimeSpan dur = (end - start).Duration();
 
                                     Console.WriteLine("No.4785 Thread One Second Data Read Time:{0} read Duration:{1}", nowDisplay.ToString("yyyy-MM-dd HH:mm:ss:fff"), dur.TotalMilliseconds);
 
@@ -792,11 +858,11 @@ namespace Ph_Mc_LiXinErFeng
                                 var mc = _mc[3];
                                 var nodeidDictionary = nodeidDictionary4;
 
-                                while (true)
+                                while (isThreadSixRunning)
                                 {
                                     TimeSpan start = new TimeSpan(DateTime.Now.Ticks);
 
-                                    keyenceClients.ReadandSendDeviceInfo(StationMemory_LXEF2, mc, grpcToolInstance, nodeidDictionary, grpcDataAccessServiceClient, options1);
+                                    keyenceClients.ReadandSendDeviceInfo2(StationMemory_LXEF2, mc, grpcToolInstance, nodeidDictionary, grpcDataAccessServiceClient, options1);
 
                                     var ReadObject = "EM5057";
                                     ushort length = 25;
@@ -816,7 +882,7 @@ namespace Ph_Mc_LiXinErFeng
 
                                     TimeSpan end = new TimeSpan(DateTime.Now.Ticks);
                                     DateTime nowDisplay = DateTime.Now;
-                                    TimeSpan dur = (start - end).Duration();
+                                    TimeSpan dur = (end - start).Duration();
 
                                     Console.WriteLine("No.4752 Thread 100ms Data Read Time:{0} read Duration:{1}", nowDisplay.ToString("yyyy-MM-dd HH:mm:ss:fff"), dur.TotalMilliseconds);
 
@@ -836,7 +902,7 @@ namespace Ph_Mc_LiXinErFeng
                                 var mc = _mc[3];
                                 var nodeidDictionary = nodeidDictionary4;
 
-                                while (true)
+                                while (isThreadSevenRunning)
                                 {
                                     TimeSpan start = new TimeSpan(DateTime.Now.Ticks);
 
@@ -877,7 +943,7 @@ namespace Ph_Mc_LiXinErFeng
 
                                     TimeSpan end = new TimeSpan(DateTime.Now.Ticks);
                                     DateTime nowDisplay = DateTime.Now;
-                                    TimeSpan dur = (start - end).Duration();
+                                    TimeSpan dur = (end - start).Duration();
 
                                     Console.WriteLine("No.4752 Thread One Second Data Read Time:{0} read Duration:{1}", nowDisplay.ToString("yyyy-MM-dd HH:mm:ss:fff"), dur.TotalMilliseconds);
 
@@ -903,34 +969,165 @@ namespace Ph_Mc_LiXinErFeng
 
                     case 100:
                         {
-                            //开启线程
-                            try
+                            #region 开启线程
+
+                            //4795
+                            if (thr[0].ThreadState == ThreadState.Unstarted && thr[1].ThreadState == ThreadState.Unstarted 
+                                && thr[2].ThreadState == ThreadState.Unstarted && thr[3].ThreadState == ThreadState.Unstarted
+                                && thr[4].ThreadState == ThreadState.Unstarted && thr[5].ThreadState == ThreadState.Unstarted
+                                && thr[6].ThreadState == ThreadState.Unstarted && thr[7].ThreadState == ThreadState.Unstarted)
                             {
-                                //  4795
-                                thr[0].Start();  
-                                thr[1].Start(); 
+                                try
+                                {
+                                    isThreadZeroRunning = true;
+                                    thr[0].Start();
 
-                                // 4794
-                                thr[2].Start();
-                                thr[3].Start();
+                                    isThreadOneRunning = true;
+                                    thr[1].Start();
 
-                                // 4785
-                                thr[4].Start();
-                                thr[5].Start();
 
-                                // 4752
-                                thr[6].Start();
-                                thr[7].Start();
+                                    isThreadTwoRunning = true;
+                                    thr[2].Start();
+
+                                    isThreadThreeRunning = true;
+                                    thr[3].Start();
+
+                                    isThreadFourRunning = true;
+                                    thr[4].Start();
+
+                                    isThreadFiveRunning = true;
+                                    thr[5].Start();
+
+                                    isThreadSixRunning = true;
+                                    thr[6].Start();
+
+                                    isThreadSevenRunning = true;
+                                    thr[7].Start();
+
+
+                                    //APP Status ： running
+                                    listWriteItem.Clear();
+                                    listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary1["AppStatus"], Arp.Type.Grpc.CoreType.CtInt32, 1));
+                                    if (grpcToolInstance.WriteDataToDataAccessService(grpcDataAccessServiceClient, grpcToolInstance.ServiceWriteRequestAddDatas(listWriteItem.ToArray()), new IDataAccessServiceWriteResponse(), options1))
+                                    {
+                                        logNet.WriteInfo("[Grpc]", "AppStatus 写入IEC成功");
+                                        //Console.WriteLine("{0}      AppStatus写入IEC: success", DateTime.Now);
+                                    }
+                                    else
+                                    {
+                                        //Console.WriteLine("{0}      AppStatus写入IEC: fail", DateTime.Now);
+                                        logNet.WriteError("[Grpc]", "AppStatus 写入IEC失败");
+                                    }
+
+                                }
+                                catch
+                                {
+                                    Console.WriteLine("Thread quit");
+
+                                    //APP Status ： Error
+                                    listWriteItem.Clear();
+                                    listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary1["AppStatus"], Arp.Type.Grpc.CoreType.CtInt32, -1));
+                                    if (grpcToolInstance.WriteDataToDataAccessService(grpcDataAccessServiceClient, grpcToolInstance.ServiceWriteRequestAddDatas(listWriteItem.ToArray()), new IDataAccessServiceWriteResponse(), options1))
+                                    {
+                                        logNet.WriteInfo("[Grpc]", "AppStatus 写入IEC成功");
+                                        //Console.WriteLine("{0}      AppStatus写入IEC: success", DateTime.Now);
+                                    }
+                                    else
+                                    {
+                                        //Console.WriteLine("{0}      AppStatus写入IEC: fail", DateTime.Now);
+                                        logNet.WriteError("[Grpc]", "AppStatus 写入IEC失败");
+                                    }
+
+                                    stepNumber = 1000;
+                                    break;
+
+                                }
+
                             }
-                            catch
+
+
+
+
+                            #endregion
+
+                            //#region IEC发送触发信号，重新读取Excel
+
+                            //dataAccessServiceReadSingleRequest = new IDataAccessServiceReadSingleRequest();
+                            //dataAccessServiceReadSingleRequest.PortName = nodeidDictionary1["Switch_ReadExcelFile"];
+                            //if (grpcToolInstance.ReadSingleDataToDataAccessService(grpcDataAccessServiceClient, dataAccessServiceReadSingleRequest, new IDataAccessServiceReadSingleResponse(), options1).BoolValue)
+                            //{
+                            //    //复位信号点:Switch_WriteExcelFile                               
+                            //    listWriteItem.Clear();
+                            //    listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary1["Switch_ReadExcelFile"], Arp.Type.Grpc.CoreType.CtBoolean, false)); //Write Data to DataAccessService                                 
+                            //    if (grpcToolInstance.WriteDataToDataAccessService(grpcDataAccessServiceClient, grpcToolInstance.ServiceWriteRequestAddDatas(listWriteItem.ToArray()), new IDataAccessServiceWriteResponse(), options1))
+                            //    {
+                            //        //Console.WriteLine("{0}      Switch_ReadExcelFile写入IEC: success", DateTime.Now);
+                            //        logNet.WriteInfo("[Grpc]", "Switch_ReadExcelFile 写入IEC成功");
+                            //    }
+                            //    else
+                            //    {
+                            //        //Console.WriteLine("{0}      Switch_ReadExcelFile写入IEC: fail", DateTime.Now);
+                            //        logNet.WriteError("[Grpc]", "Switch_ReadExcelFile 写入IEC失败");
+                            //    }
+
+
+                            //    //停止线程
+                            //    isThreadZeroRunning = false;
+                            //    isThreadOneRunning = false;
+                            //    isThreadTwoRunning = false;
+                            //    isThreadThreeRunning = false;
+                            //    isThreadFourRunning = false;
+                            //    isThreadFiveRunning = false;
+                            //    isThreadSixRunning = false;
+                            //    isThreadSevenRunning = false;
+
+                            //    for (int i = 0; i < clientNum; i++)
+                            //    {
+                            //        _mc[i].ConnectClose();
+                            //        //Console.WriteLine(" CIP {0} Connect closed", i);
+                            //        logNet.WriteInfo("[MC]", "MC连接断开" + i.ToString());
+                            //    }
+
+                            //    Thread.Sleep(1000);//等待线程退出
+
+                            //    stepNumber = 10;
+                            //}
+
+                            //#endregion
+
+
+                            #region 检测PLCnext和Keyence PLC之间的连接
+
+                            for (int i=0; i <clientNum;i ++)
                             {
-                                Console.WriteLine("Thread quit");
-                                stepNumber = 1000;
-                                break;
+                                IPStatus iPStatus;
+                                iPStatus = _mc[i].IpAddressPing();  //判断与PLC的物理连接状态
 
+                                string[] plcErrors = {
+                                                        "Ping Keyence PLC 4795 failed",
+                                                        "Ping Keyence PLC 4794 failed",
+                                                        "Ping Keyence PLC 4785 failed",
+                                                        "Ping Keyence PLC 4752 failed"  
+                                                      };
+
+                                if (iPStatus != 0)
+                                {                                 
+                                    logNet.WriteError("[MC]", plcErrors[i]);
+
+                                }
+                              
                             }
+  
+                            #endregion
 
-                            Thread.Sleep(100);
+
+
+
+
+
+
+
+                            Thread.Sleep(1000);
 
                             break;
                         }
