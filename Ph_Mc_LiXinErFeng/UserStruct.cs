@@ -106,6 +106,20 @@ namespace Ph_Mc_LiXinErFeng
 
             }
 
+            if (Arr.GetType() == typeof(UInt16[]))
+            {
+                UInt16[] dintArr = (UInt16[])Arr;
+
+                foreach (UInt16 f in dintArr)
+                {
+                    ObjectType objectType = new ObjectType();
+                    objectType.Uint16Value = f;
+                    objectType.TypeCode = CoreType.CtUint16;
+                    ArrayV.ArrayElements.Add(objectType);
+                }
+
+            }
+
             if (Arr.GetType() == typeof(string[]))
             {
                 string[] stringArr = (string[])Arr;
@@ -360,39 +374,40 @@ namespace Ph_Mc_LiXinErFeng
         //设备信息（47个）
         public struct DeviceInfoConSturct_MC
         {
-            public string varType;  //数据类型
-            public string varName;  //标签名
-            public string stationName;//工位名
-            public int varOffset;  //地址偏移量
-            public int stationNumber;  //工位对应序号
+            public string varType;           // 数据类型
+            public string varName;           // 标签名
+            public string stationName;       // 工位名
+            public int varOffset;            // 地址偏移量
+            public int stationNumber;        // 工位对应序号
         }
 
         //加工工位（3个）
         public struct StationInfoStruct_MC
         {
-            public string stationName;  //工位名    
-            public string varType;  //变量类型
-            public string varName;  //变量名
-            public string varAnnotation;  //描述
-            public int varOffset;  //地址偏移量
+            public string stationName;       // 工位名    
+            public string varType;           // 变量类型
+            public string varName;           // 变量名
+            public string varAnnotation;     // 描述
+            public int varOffset;            // 地址偏移量
+            public int varMagnification;     // 倍率
         }
 
         //1000ms数据
         public struct OneSecInfoStruct_MC
         {
-            public string varType;  //变量类型
-            public string varName;  //变量名
-            public string varAnnotation;  //描述
-            public int varOffset;  //地址偏移量
+            public string varType;           // 变量类型
+            public string varName;           // 变量名
+            public string varAnnotation;     // 描述
+            public int varOffset;            // 地址偏移量
 
         }
 
         public struct OneSecAlarmStruct_MC
         {
-            public string varType;  //变量类型
-            public string varName;  //变量名
-            public string varAnnotation;  //描述
-            public double varOffset;  //地址偏移量
+            public string varType;          // 变量类型
+            public string varName;          // 变量名
+            public string varAnnotation;    // 描述
+            public double varOffset;        // 地址偏移量
 
         }
 
@@ -454,6 +469,39 @@ namespace Ph_Mc_LiXinErFeng
         }
 
         #endregion
+
+
+        #region 写入Excel的采集值 
+
+        public struct AllDataReadfromMC
+        {
+            public bool[] DeviceInfoValue;          // 设备信息表
+            public float[] Station1A1BInfoValue;        // 加工工位1A1B
+            public float[] Station2A2BInfoValue;        // 加工工位2A2B
+            public short[] ProductionDataValue;     // 生产统计 
+            public ushort[] LifeManagementValue;     // 寿命管理
+            public bool[] FunctionEnableValue;      // 功能开关
+            public bool[] OEEInfo1Value;            //OEE(1)
+            public bool[] OEEInfo2Value;            //OEE(2)
+
+
+            public AllDataReadfromMC()
+            {
+                DeviceInfoValue = new bool[17];
+                Station1A1BInfoValue = new float[11];
+                Station2A2BInfoValue = new float[11];
+                ProductionDataValue = new short[4];
+                LifeManagementValue = new ushort[30];
+                FunctionEnableValue = new bool[35];  // 以最大的35为界
+                OEEInfo1Value = new bool[3];
+                OEEInfo2Value = new bool[12];
+            }
+        }
+
+
+
+        #endregion
+
 
     }
 }

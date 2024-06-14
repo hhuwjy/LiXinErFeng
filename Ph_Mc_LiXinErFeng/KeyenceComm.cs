@@ -29,6 +29,9 @@ using HslCommunication.Profinet.LSIS;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using HslCommunication.Profinet.Keyence;
 using System.Reflection;
+using NPOI.Util;
+using Org.BouncyCastle.Ocsp;
+using static NPOI.HSSF.Util.HSSFColor;
 
 
 
@@ -44,7 +47,7 @@ namespace Ph_Mc_LiXinErFeng
         #region 读取并发送设备信息
         //
         // 4795 4794 4785的设备信息 最后一个点位不连续
-        public void ReadandSendDeviceInfo1(DeviceInfoConSturct_MC[] input, KeyenceMcNet mc, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
+        public void ReadandSendDeviceInfo1(DeviceInfoConSturct_MC[] input, KeyenceMcNet mc, ref AllDataReadfromMC allDataReadfromMC, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
         {
             var ReadObject = input[0].varName;
             ushort length = (ushort)(input.Length - 1);
@@ -59,6 +62,9 @@ namespace Ph_Mc_LiXinErFeng
             {
                 Array.Copy(ret.Content, 0, tempdata, 0, ret.Content.Length);
                 tempdata[ret.Content.Length] = ret1.Content;
+
+                Array.Copy(tempdata, 0, allDataReadfromMC.DeviceInfoValue, 0, tempdata.Length);
+
                 try
                 {
                     listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary["DeviceInfo"], Arp.Type.Grpc.CoreType.CtArray, tempdata));
@@ -69,20 +75,18 @@ namespace Ph_Mc_LiXinErFeng
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("ERRO: {0}，{1}", e, nodeidDictionary.GetValueOrDefault("DeviceInfo"));
-                    logNet.WriteError(DateTime.Now.ToString() + "  DeviceInfo Send Error:  " + e.ToString());
+                    logNet.WriteError("[Grpc]", " 设备信息数据发送失败：" + e);
 
                 }
             }
             else
             {
-                logNet.WriteError(DateTime.Now.ToString() + ReadObject + " Read Failed ");
-                Console.WriteLine(ReadObject + " Read Failed ");
+                logNet.WriteError("[MC]", ReadObject + " 数据读取失败");
 
             }
         }
 
-        public void ReadandSendDeviceInfo2(DeviceInfoConSturct_MC[] input, KeyenceMcNet mc, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
+        public void ReadandSendDeviceInfo2(DeviceInfoConSturct_MC[] input, KeyenceMcNet mc, ref AllDataReadfromMC allDataReadfromMC, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
         {
             var ReadObject = input[0].varName;
             ushort length = (ushort)input.Length;
@@ -92,6 +96,8 @@ namespace Ph_Mc_LiXinErFeng
 
             if (ret.IsSuccess)
             {
+                Array.Copy(ret.Content, 0, allDataReadfromMC.DeviceInfoValue, 0, ret.Content.Length);
+
                 try
                 {
                     listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary["DeviceInfo"], Arp.Type.Grpc.CoreType.CtArray, ret.Content));
@@ -102,34 +108,46 @@ namespace Ph_Mc_LiXinErFeng
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("ERRO: {0}，{1}", e, nodeidDictionary.GetValueOrDefault("DeviceInfo"));
-                    logNet.WriteError(DateTime.Now.ToString() + "  DeviceInfo Send Error:  "+ e .ToString()  );
-                   
+                    logNet.WriteError("[Grpc]", " 设备信息数据发送失败：" + e);
+
                 }
             }
             else
             {
-                logNet.WriteError(DateTime.Now.ToString() + ReadObject + " Read Failed ");
-                Console.WriteLine( ReadObject + " Read Failed ");
-                
+                logNet.WriteError("[MC]", ReadObject + " 数据读取失败");
+
             }
         }
 
         #endregion
 
         //从大数组中取数，并发送工位数据
-        public void SendStationData(StationInfoStruct_MC[] input, short[] EMArray, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
+        public void SendStationData(StationInfoStruct_MC[] input, short[] EMArray, ref AllDataReadfromMC allDataReadfromMC, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
         {
-            short[] senddata = new short[input.Length];
+            float[] senddata = new float[input.Length];
             string StationName_Now = CN2EN(input[0].stationName);
             var listWriteItem = new List<WriteItem>();
+           
 
             for (int i = 0;i < input.Length;i++) 
             {
                 var index = input[i].varOffset - 5057; //硬编码，开始地址就是5057
-                senddata[i] = EMArray[index];  
+                senddata[i] = (float)(EMArray[index] / Math.Pow(10,input[i].varMagnification));
             }
 
+            //写入缓存区
+            if (input[0].stationName == "加工工位(1A1B)")
+            {
+                Array.Copy(senddata, 0, allDataReadfromMC.Station1A1BInfoValue, 0, senddata.Length); 
+
+            }
+            else
+            {
+                Array.Copy(senddata, 0, allDataReadfromMC.Station2A2BInfoValue, 0, senddata.Length); 
+
+            }
+
+            
             try
             {
                 listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary[StationName_Now], Arp.Type.Grpc.CoreType.CtArray, senddata));
@@ -140,9 +158,8 @@ namespace Ph_Mc_LiXinErFeng
             }
             catch (Exception e)
             {
-                Console.WriteLine("ERRO: {0}，{1}", e, nodeidDictionary.GetValueOrDefault(StationName_Now));
-                logNet.WriteError(DateTime.Now.ToString() +" "+ StationName_Now + "  Send Error:  " + e.ToString());
-             
+                logNet.WriteError("[Grpc]", StationName_Now + " 数据发送失败：" + e);
+
             }
 
         }
@@ -163,15 +180,16 @@ namespace Ph_Mc_LiXinErFeng
                 return ret.Content;
             }
             else
-            {
-                logNet.WriteError(DateTime.Now.ToString() + ReadObject + " Read Failed ");
-                Console.WriteLine(ReadObject + " Read Failed ");
+            {      
+                logNet.WriteError("[MC]", ReadObject + " 数据读取失败");
+              
                 return null;
             }
         }
+
       
         //读取并发送 功能开关、生产统计数据 
-        public void ReadandSendConOneSecData(OneSecInfoStruct_MC[] input, KeyenceMcNet mc, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
+        public void ReadandSendConOneSecData(OneSecInfoStruct_MC[] input, KeyenceMcNet mc, ref AllDataReadfromMC allDataReadfromMC, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
         {
             var ReadObject = input[0].varName;
             ushort length = (ushort)input.Length;
@@ -183,6 +201,9 @@ namespace Ph_Mc_LiXinErFeng
 
                 if (ret.IsSuccess)
                 {
+
+                    Array.Copy(ret.Content, 0, allDataReadfromMC.FunctionEnableValue, 0, ret.Content.Length);  //写入缓存区
+
                     try
                     {
                         listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary[ReadObject], Arp.Type.Grpc.CoreType.CtArray, ret.Content));
@@ -193,16 +214,17 @@ namespace Ph_Mc_LiXinErFeng
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("ERRO: {0}，{1}", e, nodeidDictionary.GetValueOrDefault(ReadObject));
-                        logNet.WriteError(DateTime.Now.ToString() + " " + ReadObject + " Send Error:  " + e.ToString());
+                     
+                        logNet.WriteError("[Grpc]", ReadObject + " 数据发送失败："+ e);
+  
                        
                     }
                 }
                 else
                 {
-                    logNet.WriteError(DateTime.Now.ToString() + ReadObject + " Read Failed ");
-                    Console.WriteLine(ReadObject + " Read Failed ");
-                    
+
+                    logNet.WriteError("[MC]", ReadObject + " 数据读取失败");
+
                 }
             }
             else   //读生产统计
@@ -211,6 +233,8 @@ namespace Ph_Mc_LiXinErFeng
 
                 if (ret.IsSuccess)
                 {
+                    Array.Copy(ret.Content, 0, allDataReadfromMC.ProductionDataValue, 0, ret.Content.Length);  //写入缓存区
+
                     try
                     {
                         listWriteItem.Add(grpcToolInstance.CreatWriteItem(nodeidDictionary[ReadObject], Arp.Type.Grpc.CoreType.CtArray, ret.Content));
@@ -221,29 +245,27 @@ namespace Ph_Mc_LiXinErFeng
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("ERRO: {0}，{1}", e, nodeidDictionary.GetValueOrDefault(ReadObject));
-                        logNet.WriteError(DateTime.Now.ToString() + " " + ReadObject + " Send Error:  " + e.ToString());
-                       
+                        logNet.WriteError("[Grpc]", ReadObject + " 数据发送失败：" + e);
+
                     }
                 }
                 else
                 {
-                    logNet.WriteError(DateTime.Now.ToString() + ReadObject + " Read Failed ");
-                    Console.WriteLine(ReadObject + " Read Failed ");
-                   
+                    logNet.WriteError("[MC]", ReadObject + " 数据读取失败");
+
                 }
             }
         }
 
         //读取并发送 寿命管理数据  (需要根据地址筛选）
-        public void ReadandSendDisOneSecData(OneSecInfoStruct_MC[] input, KeyenceMcNet mc, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
+        public void ReadandSendDisOneSecData(OneSecInfoStruct_MC[] input, KeyenceMcNet mc, ref AllDataReadfromMC allDataReadfromMC, GrpcTool grpcToolInstance, Dictionary<string, string> nodeidDictionary, IDataAccessServiceClient grpcDataAccessServiceClient, CallOptions options1)
         {
-            short[] senddata = new short[input.Length];
+            ushort[] senddata = new ushort[input.Length];
             var ReadObject = input[0].varName;
             ushort length = (ushort)(input[input.Length -1].varOffset - input[0].varOffset +1 );
             var listWriteItem = new List<WriteItem>();
 
-            OperateResult<short[]> ret = mc.ReadInt16(ReadObject, length);
+            OperateResult<ushort[]> ret = mc.ReadUInt16(ReadObject, length);
 
             if(ret.IsSuccess)
             {
@@ -252,6 +274,8 @@ namespace Ph_Mc_LiXinErFeng
                     var index = input[i].varOffset - input[0].varOffset;
                     senddata[i] = ret.Content[index];
                 }
+
+                Array.Copy(senddata, 0, allDataReadfromMC.LifeManagementValue, 0, senddata.Length);  //写入缓存区
 
                 try
                 {
@@ -263,16 +287,13 @@ namespace Ph_Mc_LiXinErFeng
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("ERRO: {0}，{1}", e, nodeidDictionary.GetValueOrDefault(ReadObject));
-                    logNet.WriteError(DateTime.Now.ToString() + " " + ReadObject + " Send Error:  " + e.ToString());
-                    
+                    logNet.WriteError("[Grpc]", ReadObject + " 数据发送失败：" + e);
+
                 }
             }
             else
             {
-                logNet.WriteError(DateTime.Now.ToString() + ReadObject + " Read Failed ");
-                Console.WriteLine(ReadObject + " Read Failed ");
-              
+                logNet.WriteError("[MC]", ReadObject + " 数据读取失败");
 
             }
            
@@ -307,17 +328,13 @@ namespace Ph_Mc_LiXinErFeng
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("ERRO: {0}，{1}", e, nodeidDictionary.GetValueOrDefault(ReadObject));
-                    logNet.WriteError(DateTime.Now.ToString() + " " + ReadObject + " Send Error:  " + e.ToString());
-                   
+                    logNet.WriteError("[Grpc]", ReadObject + " 数据发送失败：" + e);
+
                 }
             }
             else
             {
-                logNet.WriteError(DateTime.Now.ToString() + ReadObject + " Read Failed ");
-                Console.WriteLine(ReadObject + " Read Failed ");
-              
-
+                logNet.WriteError("[MC]", ReadObject + " 数据读取失败");
             }
         }
 
@@ -352,8 +369,7 @@ namespace Ph_Mc_LiXinErFeng
             }
             catch (Exception e)
             {
-                logNet.WriteError(DateTime.Now.ToString() + InputStruct[0].varAnnotation + "ERRO: {0}", e.ToString());
-                Console.WriteLine("ERRO: {0}", e);
+                logNet.WriteError("[Grpc]", InputStruct[0].varAnnotation + " 点位名发送失败：" + e);
             }
 
         }
@@ -385,8 +401,7 @@ namespace Ph_Mc_LiXinErFeng
             }
             catch (Exception e)
             {
-                logNet.WriteError(DateTime.Now.ToString() + InputStruct[0].varAnnotation + "ERRO: {0}", e.ToString());
-                Console.WriteLine("ERRO: {0}", e);
+                logNet.WriteError("[Grpc]", InputStruct[0].varAnnotation + " 点位名发送失败：" + e);
             }
 
         }
@@ -418,8 +433,7 @@ namespace Ph_Mc_LiXinErFeng
             }
             catch (Exception e)
             {
-                logNet.WriteError(DateTime.Now.ToString() + InputStruct[0].varAnnotation + "ERRO: {0}", e.ToString());
-                Console.WriteLine("ERRO: {0}", e);
+                logNet.WriteError("[Grpc]", InputStruct[0].varAnnotation + " 点位名发送失败：" + e);
             }
 
         }
@@ -451,8 +465,7 @@ namespace Ph_Mc_LiXinErFeng
             }
             catch (Exception e)
             {
-                logNet.WriteError(DateTime.Now.ToString() + InputString[0] + "ERRO: {0}", e.ToString());
-                //Console.WriteLine("ERRO: {0}", e);
+                logNet.WriteError("[Grpc]", InputString[0] + " 点位名发送失败：" + e);
             }
 
         }
