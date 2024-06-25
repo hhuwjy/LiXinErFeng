@@ -65,7 +65,7 @@ namespace Ph_Mc_LiXinErFeng
             
            
             //sheet = xssWorkbook.GetSheetAt(0);
-            ISheet sheet = xssWorkbook.GetSheet(sheetName);
+            ISheet sheet = xssWorkbook.GetSheet(sheetName.Trim());
             if (sheet == null)
             {
                 Console.WriteLine(sheetName+ "页不存在");
@@ -107,10 +107,12 @@ namespace Ph_Mc_LiXinErFeng
                     {
                         if (!string.IsNullOrEmpty(row.GetCell(j).ToString()) && !string.IsNullOrWhiteSpace(row.GetCell(j).ToString()))
                         {
+
                             v.stationName = Convert.ToString(sheetName);
+
                             if (j == getCellIndexByName(headerRow, "偏移地址"))
                             {
-                                v.varName = Convert.ToString(row.GetCell(j));
+                               // v.varName = Convert.ToString(row.GetCell(j));
                                 if (!(string.IsNullOrEmpty(v.varName) || string.IsNullOrWhiteSpace(v.varName)))
                                 {
                                     //Regex r = new Regex(@"(?i)(?<=\[)(.*)(?=\])");//中括号[]
@@ -126,6 +128,12 @@ namespace Ph_Mc_LiXinErFeng
                                 }
 
                             }
+                            else if (j == getCellIndexByName(headerRow, "地址/标签"))
+                            {
+                                v.varName = Convert.ToString(row.GetCell(j));
+
+                            }
+
                             else if (j == getCellIndexByName(headerRow, "点位名"))
                             {
                                 v.varAnnotation = Convert.ToString(row.GetCell(j));
@@ -140,6 +148,10 @@ namespace Ph_Mc_LiXinErFeng
                             {
                                 string temp = Convert.ToString(row.GetCell(j));
                                 v.varMagnification = GetNumbersFromString(temp);
+                            }
+                            else if (j == getCellIndexByName(headerRow, "所属工位号"))
+                            {
+                                v.StationNumber = Convert.ToInt32(row.GetCell(j).NumericCellValue);
                             }
                         }
                     }
@@ -344,7 +356,7 @@ namespace Ph_Mc_LiXinErFeng
 
                 for (int j = row.FirstCellNum; j < cellCount; j++)
                 {
-                    if (j == getCellIndexByName(headerRow, "工位信号"))
+                    if (j == getCellIndexByName(headerRow, "工位序号"))
                     {
                         v.stationNumber = Convert.ToInt32(row.GetCell(j).NumericCellValue);
                     }
@@ -647,7 +659,7 @@ namespace Ph_Mc_LiXinErFeng
                     {
                         if (i < values.Length)
                         {
-                            sheet.GetRow(i + 1).GetCell(column).SetCellValue(values[i].str);
+                            sheet.GetRow(i + 1).GetCell(column).SetCellValue(values[i].StringValue);
                         }
                         else
                         {
@@ -812,6 +824,26 @@ namespace Ph_Mc_LiXinErFeng
                 if (value.GetType() == typeof(Int32[]))
                 {
                     Int32[] values = (Int32[])value;
+                    for (int i = 0; i < sheet.LastRowNum; i++)
+                    {
+                        if (sheet.GetRow(i + 1).GetCell(column) != null)
+                        {
+                            if (i < values.Length)
+                            {
+                                sheet.GetRow(i + 1).GetCell(column).SetCellValue(Convert.ToString(values[i]));
+                            }
+                            else
+                            {
+                                sheet.GetRow(i + 1).GetCell(column).SetCellValue("ValueIsNull");
+                            }
+
+                        }
+
+                    }
+                }
+                if (value.GetType() == typeof(UInt32[]))
+                {
+                    UInt32[] values = (UInt32[])value;
                     for (int i = 0; i < sheet.LastRowNum; i++)
                     {
                         if (sheet.GetRow(i + 1).GetCell(column) != null)
