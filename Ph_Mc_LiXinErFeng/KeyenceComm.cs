@@ -532,6 +532,8 @@ namespace Ph_Mc_LiXinErFeng
 
 
 
+
+
         //根据首地址和偏移地址，得出数据在所读数据中的索引， 起始地址为21偏移地址为 4101   数组索引为 （41-21）*16 +（01 -00 ）
         //适用于  LR MR R的软件元
         public int CalculateIndex_H(int startaddress, int offset)
