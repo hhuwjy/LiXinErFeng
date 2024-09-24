@@ -71,7 +71,7 @@ namespace Ph_Mc_LiXinErFeng
                 tempdata[ret.Content.Length] = ret1.Content;
                 StationListlnfo.arrDataPoint[ret.Content.Length].xCellMem = ret1.Content;  //写入 MR8610 
 
-                Array.Copy(tempdata, 0, allDataReadfromMC.DeviceInfoValue, 0, tempdata.Length);  //写入暂存区（写入Excel的采集值）
+                //Array.Copy(tempdata, 0, allDataReadfromMC.DeviceInfoValue, 0, tempdata.Length);  //写入暂存区（写入Excel的采集值）
 
    
                 try
@@ -159,7 +159,7 @@ namespace Ph_Mc_LiXinErFeng
                                 index = input[i].varOffset - 5057;
                                 temp = EMArray[index] / Math.Pow(10, input[i].varMagnification);
                                 ProcessStationDataValue.arrDataPoint[j].arrDataPoint[i].StringValue = temp.ToString();   // 写入 加工工位采集值结构体 
-                                allDataReadfromMC.Station1AInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
+                                //allDataReadfromMC.Station1AInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
 
                             }
                             else if (input[i].varName.Substring(0, 2) == "DM")
@@ -167,14 +167,14 @@ namespace Ph_Mc_LiXinErFeng
                                 index = input[i].varOffset - 9500;
                                 temp = DMArray[index] / Math.Pow(10, input[i].varMagnification);
                                 ProcessStationDataValue.arrDataPoint[j].arrDataPoint[i].StringValue = temp.ToString();    // 写入 加工工位采集值结构体
-                                allDataReadfromMC.Station1AInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
+                                //allDataReadfromMC.Station1AInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
 
                             }
                             else if (input[i].varName.Substring(0, 2) == "MR")
                             {
                                 index = CalculateIndex_H(6008, input[i].varOffset);
                                 ProcessStationDataValue.arrDataPoint[j].arrDataPoint[i].StringValue = MRArray[index] ? "1" : "0";    // 写入 加工工位采集值结构体
-                                allDataReadfromMC.Station1AInfoValue[i] = MRArray[index] ? "1" : "0";    // 写入数据暂存区（Excel）
+                               // allDataReadfromMC.Station1AInfoValue[i] = MRArray[index] ? "1" : "0";    // 写入数据暂存区（Excel）
                             }
 
                         }
@@ -196,7 +196,7 @@ namespace Ph_Mc_LiXinErFeng
                                 index = input[i].varOffset - 5057;
                                 temp = EMArray[index] / Math.Pow(10, input[i].varMagnification);
                                 ProcessStationDataValue.arrDataPoint[j].arrDataPoint[i].StringValue = temp.ToString();   // 写入 加工工位采集值结构体 
-                                allDataReadfromMC.Station1BInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
+                                //allDataReadfromMC.Station1BInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
 
                             }
                             else if (input[i].varName.Substring(0, 2) == "DM")
@@ -204,14 +204,14 @@ namespace Ph_Mc_LiXinErFeng
                                 index = input[i].varOffset - 9500;
                                 temp = DMArray[index] / Math.Pow(10, input[i].varMagnification);
                                 ProcessStationDataValue.arrDataPoint[j].arrDataPoint[i].StringValue = temp.ToString();    // 写入 加工工位采集值结构体
-                                allDataReadfromMC.Station1BInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
+                                //allDataReadfromMC.Station1BInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
 
                             }
                             else if (input[i].varName.Substring(0, 2) == "MR")
                             {
                                 index = CalculateIndex_H(6008, input[i].varOffset);
                                 ProcessStationDataValue.arrDataPoint[j].arrDataPoint[i].StringValue = MRArray[index] ? "1" : "0";    // 写入 加工工位采集值结构体
-                                allDataReadfromMC.Station1BInfoValue[i] = MRArray[index] ? "1" : "0";    // 写入数据暂存区（Excel）
+                                //allDataReadfromMC.Station1BInfoValue[i] = MRArray[index] ? "1" : "0";    // 写入数据暂存区（Excel）
                             }
 
                         }
@@ -233,7 +233,7 @@ namespace Ph_Mc_LiXinErFeng
                                 index = input[i].varOffset - 5057;
                                 temp = EMArray[index] / Math.Pow(10, input[i].varMagnification);
                                 ProcessStationDataValue.arrDataPoint[j].arrDataPoint[i].StringValue = temp.ToString();   // 写入 加工工位采集值结构体 
-                                allDataReadfromMC.Station2AInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
+                                //allDataReadfromMC.Station2AInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
 
                             }
                             else if (input[i].varName.Substring(0, 2) == "DM")
@@ -241,14 +241,14 @@ namespace Ph_Mc_LiXinErFeng
                                 index = input[i].varOffset - 9500;
                                 temp = DMArray[index] / Math.Pow(10, input[i].varMagnification);
                                 ProcessStationDataValue.arrDataPoint[j].arrDataPoint[i].StringValue = temp.ToString();    // 写入 加工工位采集值结构体
-                                allDataReadfromMC.Station2AInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
+                               // allDataReadfromMC.Station2AInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
 
                             }
                             else if (input[i].varName.Substring(0, 2) == "MR")
                             {
                                 index = CalculateIndex_H(6008, input[i].varOffset);
                                 ProcessStationDataValue.arrDataPoint[j].arrDataPoint[i].StringValue = MRArray[index] ? "1" : "0";    // 写入 加工工位采集值结构体
-                                allDataReadfromMC.Station2AInfoValue[i] = MRArray[index] ? "1" : "0";    // 写入数据暂存区（Excel）
+                               // allDataReadfromMC.Station2AInfoValue[i] = MRArray[index] ? "1" : "0";    // 写入数据暂存区（Excel）
                             }
 
 
@@ -274,7 +274,7 @@ namespace Ph_Mc_LiXinErFeng
                                 index = input[i].varOffset - 5057;
                                 temp = EMArray[index] / Math.Pow(10, input[i].varMagnification);
                                 ProcessStationDataValue.arrDataPoint[j].arrDataPoint[i].StringValue = temp.ToString();   // 写入 加工工位采集值结构体 
-                                allDataReadfromMC.Station2BInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
+                               // allDataReadfromMC.Station2BInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
 
 
                             }
@@ -283,14 +283,14 @@ namespace Ph_Mc_LiXinErFeng
                                 index = input[i].varOffset - 9500;
                                 temp = DMArray[index] / Math.Pow(10, input[i].varMagnification);
                                 ProcessStationDataValue.arrDataPoint[j].arrDataPoint[i].StringValue = temp.ToString();    // 写入 加工工位采集值结构体
-                                allDataReadfromMC.Station2BInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
+                                //allDataReadfromMC.Station2BInfoValue[i] = temp.ToString();    // 写入数据暂存区（Excel）
 
                             }
                             else if (input[i].varName.Substring(0, 2) == "MR")
                             {
                                 index = CalculateIndex_H(6008, input[i].varOffset);
                                 ProcessStationDataValue.arrDataPoint[j].arrDataPoint[i].StringValue = MRArray[index] ? "1" : "0";    // 写入 加工工位采集值结构体
-                                allDataReadfromMC.Station2BInfoValue[i] = MRArray[index] ? "1" : "0";    // 写入数据暂存区（Excel）
+                                //allDataReadfromMC.Station2BInfoValue[i] = MRArray[index] ? "1" : "0";    // 写入数据暂存区（Excel）
                             }
 
 
@@ -347,7 +347,7 @@ namespace Ph_Mc_LiXinErFeng
                 if (ret.IsSuccess)
                 {
 
-                    Array.Copy(ret.Content, 0, allDataReadfromMC.FunctionEnableValue, 0, ret.Content.Length);  //写入缓存区
+                    //Array.Copy(ret.Content, 0, allDataReadfromMC.FunctionEnableValue, 0, ret.Content.Length);  //写入缓存区
 
                     Array.Copy(ret.Content, 0, DeviceDataStruct.Value_FE, 0, input.Length);  //写入 DeviceDataStruct 结构体
 
@@ -366,7 +366,7 @@ namespace Ph_Mc_LiXinErFeng
 
                 if (ret.IsSuccess)
                 {
-                    Array.Copy(ret.Content, 0, allDataReadfromMC.ProductionDataValue, 0, ret.Content.Length);  //写入缓存区
+                    //Array.Copy(ret.Content, 0, allDataReadfromMC.ProductionDataValue, 0, ret.Content.Length);  //写入缓存区
                     Array.Copy(ret.Content, 0, DeviceDataStruct.Value_PD, 0, ret.Content.Length); //写入 DeviceDataStruct 结构体
 
                 }
@@ -394,7 +394,7 @@ namespace Ph_Mc_LiXinErFeng
                 {
                     var index = input[i].varOffset - input[0].varOffset;
                     //senddata[i] = (uint)ret.Content[index];
-                    allDataReadfromMC.LifeManagementValue[i] = ret.Content[index];  //写入缓存区
+                    //allDataReadfromMC.LifeManagementValue[i] = ret.Content[index];  //写入缓存区
                     DeviceDataStruct.Value_LM[i] = ret.Content[index];//写入 DeviceDataStruct 结构体
 
                 }

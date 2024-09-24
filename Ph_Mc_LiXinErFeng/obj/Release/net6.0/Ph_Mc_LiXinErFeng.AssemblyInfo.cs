@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Ph_Mc_LiXinErFeng")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0cecfb3e50cafb906b84896151fcde4e562d0d0d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fda6e2ad3094424a95ad767e65cb3919e764c64c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Ph_Mc_LiXinErFeng")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Ph_Mc_LiXinErFeng")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
